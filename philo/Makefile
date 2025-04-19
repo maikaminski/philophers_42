@@ -12,4 +12,27 @@
 
 NAME = philo
 CC = cc
-SRC = philo.c
+FLAGS = -Wall -Werror -Wextra -g
+SRC = philo_actions.c philo_close.c philo_init.c philo_main.c \
+		philo_monitor.c philo_routine.c philo_utils.c philo_validate.c
+OBJS = $(SRC:%.c=%.o)
+
+all: $(NAME)
+
+	
+$(NAME): $(OBJS)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
+	chmod +x $(NAME) 
+
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re 
