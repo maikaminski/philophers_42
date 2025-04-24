@@ -15,5 +15,6 @@
 int	main(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
-		//função de terminar
+		return (error_msg("Invalid number of arguments\n"));
+	
 }

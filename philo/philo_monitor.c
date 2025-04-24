@@ -12,8 +12,8 @@
 
 #include "philo.h"
 
-monitor_deaths(&data);
+void	monitor_deaths(t_data *data);
 
-has_died(philo);
+void	has_died(int philo);
 
-all_full(&data); //só se for passado o número minimo de refeições para cada
+void	all_full(t_data *data); //só se for passado o número minimo de refeições para cada

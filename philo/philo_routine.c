@@ -12,8 +12,8 @@
 
 #include "philo.h"
 
-start_dinner(&data);
+void	start_dinner(t_data *data);
 
-routine(void arg);
+void	*routine(void *arg);
 
-get_time()
+uint64_t	get_time(void);

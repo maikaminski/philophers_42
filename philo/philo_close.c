@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-stop_dinner(&data);
+#include "philo.h"
 
-destroy_mutexes(&data);
+void	stop_dinner(t_data *data);
 
-free_all(&data);
+void	destroy_mutexes(t_data *data);
+
+void	free_all(t_data *data);

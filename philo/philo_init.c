@@ -12,8 +12,8 @@
 
 #include "philo.h"
 
-init_data(&data, argc, argv);
+void	init_data(t_data *data, int argc, char **argv);
 
-init_mutex(&data);
+void	init_mutex(t_data *data);
 
-init_philos(&data);
+void	init_philos(t_data *data);
