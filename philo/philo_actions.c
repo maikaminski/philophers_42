@@ -12,10 +12,11 @@
 
 #include "philo.h"
 
-//pegar o garfo
+void	take_forks(t_philo *philo);
 
-//largar o garfo
+void	release_forks(t_philo *philo);
 
-//dormir
+void	philo_sleep(t_philo *philo);
 
-//pensar
+void	philo_think(t_philo *philo);
+

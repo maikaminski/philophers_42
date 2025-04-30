@@ -12,12 +12,12 @@
 
 #include "philo.h"
 
-safe_print();
+void	safe_print(); // ainda não sei o que colocar nos parametros
 
 int	error_msg(char *msg)
 {
 	printf("Error: %s", msg);
-    return (1);
+	return (1);
 }
 
 int	ft_isdigit(int c)

@@ -14,6 +14,18 @@
 
 void	stop_dinner(t_data *data);
 
-void	destroy_mutexes(t_data *data);
+void	destroy_mutexes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_number)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->print);
+		pthread_mutex_destroy(&data->lock);
+		i++;
+	}
+}
 
 void	free_all(t_data *data);

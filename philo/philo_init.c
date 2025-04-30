@@ -12,8 +12,49 @@
 
 #include "philo.h"
 
-void	init_data(t_data *data, int argc, char **argv);
+int	init_data(t_data *data, int argc, char **argv)
+{
+	if (validate_args(argc, argv, data))
+		return (1);
+	data->someone_died = false;
+	data->start = 0;
+	data->philo = malloc(sizeof(t_philo) * data->philo_number);
+	if (!data->philo)
+		return (error_msg("Failed to alloc memory for philo.\n"));
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_number);
+	if (!data->forks)
+	{
+		free(data->philo);
+		return (error_msg("Failed to alloc memory for forks.\n"));
+	}
+	return (0);
+}
 
-void	init_mutex(t_data *data);
+void	init_mutex(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_number)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		{
+			error_msg("Failed to init fork mutex.\n");
+			// return;
+		}
+		i++;
+	}
+	if (pthread_mutex_init(&data->print, NULL) != 0)
+	{
+		error_msg("Failed to init print mutex.\n");
+		//return;
+	}
+	if (pthread_mutex_init(&data->lock, NULL) != 0)
+	{
+		error_msg("Failed to init lock mutex.\n");
+		// return;
+	}
+	// perguntar porque é diferente de 0 que da erro e esses returns aí em função void
+}
 
 void	init_philos(t_data *data);

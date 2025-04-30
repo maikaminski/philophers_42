@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validate.c                                         :+:      :+:    :+:   */
+/*   philo_validate.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: makamins <makamins@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 17:10:17 by makamins          #+#    #+#             */
-/*   Updated: 2025/04/16 17:10:50 by makamins         ###   ########.fr       */
+/*   Created: 2025/04/24 20:05:05 by makamins          #+#    #+#             */
+/*   Updated: 2025/04/24 20:05:05 by makamins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	validate_args(int argc, char **argv, t_data *data)
 			return (error_msg("Invalid input: must be a positive number\n"));
 		i++;
 	}
-
 	data->philo_number = ft_atol(argv[1]);
 	data->time_to_dead = ft_atol(argv[2]);
 	data->time_to_eat = ft_atol(argv[3]);
@@ -48,9 +47,9 @@ int	validate_args(int argc, char **argv, t_data *data)
 		data->num_meals = ft_atol(argv[5]);
 	else
 		data->num_meals = -1;
-	if (data->philo_number <= 0 || data->time_to_dead <= 0 ||
-			data->time_to_eat <= 0 || data->time_to_sleep <= 0 ||
-			(argc == 6 && data->num_meals <= 0))
-				return (error_msg("Values must be above 0.\n"));
+	if (data->philo_number <= 0 || data->time_to_dead <= 0
+		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0
+		|| (argc == 6 && data->num_meals <= 0))
+		return (error_msg("Values must be above 0.\n"));
 	return (0);
 }
