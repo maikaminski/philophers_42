@@ -12,7 +12,24 @@
 
 #include "philo.h"
 
-void	safe_print(); // ainda não sei o que colocar nos parametros
+void	safe_print(t_philo *philo, const char *msg)
+{
+	uint64_t	time;
+	int			someone_died;
+
+	time = get_time() - philo->data->start;
+	someone_died = philo->data->someone_died;
+	if (!someone_died)
+	{
+		pthread_mutex_lock(&philo->data->print);
+		printf("%lu %d %s\n", time, philo->philo_id, msg);
+		pthread_mutex_unlock(&philo->data->print);
+		return ;
+	}
+	pthread_mutex_lock(&philo->data->lock);
+	printf("%lu %d %s\n", time, philo->philo_id, msg);
+	pthread_mutex_unlock(&philo->data->lock);
+}
 
 int	error_msg(char *msg)
 {

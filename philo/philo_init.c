@@ -40,21 +40,35 @@ void	init_mutex(t_data *data)
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 		{
 			error_msg("Failed to init fork mutex.\n");
-			// return;
+			return ;
 		}
 		i++;
 	}
 	if (pthread_mutex_init(&data->print, NULL) != 0)
 	{
 		error_msg("Failed to init print mutex.\n");
-		//return;
+		return ;
 	}
 	if (pthread_mutex_init(&data->lock, NULL) != 0)
 	{
 		error_msg("Failed to init lock mutex.\n");
-		// return;
+		return ;
 	}
-	// perguntar porque é diferente de 0 que da erro e esses returns aí em função void
 }
 
-void	init_philos(t_data *data);
+void	init_philos(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_number)
+	{
+		data->philo[i].philo_id = i + 1;
+		data->philo[i].meals_eaten = 0;
+		data->philo[i].last_meal = 0;
+		data->philo[i].left_fork = &data->forks[i];
+		data->philo[i].right_fork = &data->forks[(i + 1) % data->philo_number];
+		data->philo[i].data = data;
+		i++;
+	}
+}

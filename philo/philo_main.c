@@ -14,7 +14,18 @@
 
 int	main(int argc, char **argv)
 {
+	t_data	data;
+
 	if (argc < 5 || argc > 6)
 		return (error_msg("Invalid number of arguments\n"));
-	
+	if (init_data(&data, argc, argv))
+		return (1);
+	init_mutex(&data);
+	init_philos(&data);
+	start_dinner(&data);
+	monitor_deaths(&data);
+	stop_dinner(&data);
+	destroy_mutexes(&data);
+	free_all(&data);
+	return (0);
 }

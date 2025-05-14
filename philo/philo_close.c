@@ -12,7 +12,17 @@
 
 #include "philo.h"
 
-void	stop_dinner(t_data *data);
+void	stop_dinner(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_number)
+	{
+		pthread_join(data->philo[i].thread_id, NULL);
+		i++;
+	}
+}
 
 void	destroy_mutexes(t_data *data)
 {
@@ -22,10 +32,16 @@ void	destroy_mutexes(t_data *data)
 	while (i < data->philo_number)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
-		pthread_mutex_destroy(&data->print);
-		pthread_mutex_destroy(&data->lock);
 		i++;
 	}
+	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->lock);
 }
 
-void	free_all(t_data *data);
+void	free_all(t_data *data)
+{
+	if (data->philo)
+		free(data->philo);
+	if (data->forks)
+		free(data->forks);
+}

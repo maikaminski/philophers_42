@@ -12,11 +12,56 @@
 
 #include "philo.h"
 
-void	take_forks(t_philo *philo);
+void	take_forks(t_philo *philo)
+{
+	if (philo->philo_id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->right_fork);
+		if (!should_stop(philo))
+			safe_print(philo, FORK);
+		pthread_mutex_lock(philo->left_fork);
+		if (!should_stop(philo))
+			safe_print(philo, FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->left_fork);
+		if (!should_stop(philo))
+			safe_print(philo, FORK);
+		pthread_mutex_lock(philo->right_fork);
+		if (!should_stop(philo))
+			safe_print(philo, FORK);
+	}
+}
 
-void	release_forks(t_philo *philo);
+void	release_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+}
 
-void	philo_sleep(t_philo *philo);
+void	philo_sleep(t_philo *philo)
+{
+	uint64_t	start;
 
-void	philo_think(t_philo *philo);
+	if (should_stop(philo))
+		return ;
+	start = get_time();
+	safe_print(philo, SLEEP);
+	while (!should_stop(philo) && get_time()
+		- start < philo->data->time_to_sleep)
+		usleep(100);
+}
 
+void	philo_think(t_philo *philo)
+{
+	uint64_t	start;
+
+	if (should_stop(philo))
+		return ;
+	start = get_time();
+	safe_print(philo, THINK);
+	while (!should_stop(philo) && get_time()
+		- start < philo->data->time_to_think)
+		usleep(100);
+}

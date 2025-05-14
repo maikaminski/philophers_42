@@ -12,9 +12,9 @@
 
 NAME = philo
 CC = cc
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra -g3
 SRC = philo_actions.c philo_close.c philo_init.c philo_main.c \
-		philo_monitor.c philo_routine.c philo_utils.c philo_validate.c
+		philo_monitor.c philo_routine_utils.c philo_routine.c philo_utils.c philo_validate.c
 OBJS = $(SRC:%.c=%.o)
 
 all: $(NAME)
