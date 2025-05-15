@@ -19,6 +19,8 @@ int	is_number(char *str)
 	i = 0;
 	if (!str || !str[0])
 		return (0);
+	if (str[0] == '+')
+		i++;
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')

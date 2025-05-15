@@ -45,7 +45,10 @@ void	philo_sleep(t_philo *philo)
 	uint64_t	start;
 
 	if (should_stop(philo))
+	{
+		release_forks(philo);
 		return ;
+	}
 	start = get_time();
 	safe_print(philo, SLEEP);
 	usleep(philo->data->time_to_sleep * 1000);
@@ -57,7 +60,10 @@ void	philo_think(t_philo *philo)
 	int			time_to_think;
 
 	if (should_stop(philo))
+	{
+		release_forks(philo);
 		return ;
+	}
 	start = get_time();
 	safe_print(philo, THINK);
 	if (philo->data->time_to_think > 10)
