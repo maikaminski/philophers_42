@@ -6,7 +6,7 @@
 /*   By: makamins <makamins@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:08:05 by makamins          #+#    #+#             */
-/*   Updated: 2025/05/14 14:28:16 by makamins         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:32:30 by makamins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,20 @@ void	philo_eat(t_philo *philo)
 
 	take_forks(philo);
 	if (should_stop(philo))
+	{
+		release_forks(philo);
 		return ;
-	pthread_mutex_lock(&philo->data->lock);
+	}
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->data->lock);
+	pthread_mutex_unlock(&philo->meal_lock);
 	safe_print(philo, EAT);
 	start = get_time();
-	while (!should_stop(philo) && get_time() - start < philo->data->time_to_eat)
+	while (!should_stop(philo) && get_time()
+		- start < philo->data->time_to_eat)
 		usleep(100);
 	release_forks(philo);
-	pthread_mutex_lock(&philo->data->lock);
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->data->lock);
+	pthread_mutex_unlock(&philo->meal_lock);
 }

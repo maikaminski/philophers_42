@@ -14,7 +14,12 @@
 
 static int	check_philo_death(t_data *data, int i, uint64_t now)
 {
-	if (now - data->philo[i].last_meal > data->time_to_dead)
+	int	dead;
+
+	pthread_mutex_lock(&data->philo[i].meal_lock);
+	dead = (now - data->philo[i].last_meal > data->time_to_dead);
+	pthread_mutex_unlock(&data->philo[i].meal_lock);
+	if (dead)
 	{
 		pthread_mutex_lock(&data->lock);
 		data->someone_died = true;
@@ -42,9 +47,18 @@ void	monitor_deaths(t_data *data)
 {
 	uint64_t	now;
 
-	data->philo->last_meal = get_time();
-	while (!data->someone_died)
+	pthread_mutex_lock(&data->philo[0].meal_lock);
+	data->philo[0].last_meal = get_time();
+	pthread_mutex_unlock(&data->philo[0].meal_lock);
+	while (1)
 	{
+		pthread_mutex_lock(&data->lock);
+		if (data->someone_died)
+		{
+			pthread_mutex_unlock(&data->lock);
+			return ;
+		}
+		pthread_mutex_unlock(&data->lock);
 		now = get_time();
 		if (check_all_philos(data, now))
 			return ;
@@ -65,10 +79,10 @@ bool	all_full(t_data *data)
 	i = 0;
 	while (i < data->philo_number)
 	{
-		pthread_mutex_lock(&data->lock);
+		pthread_mutex_lock(&data->philo[i].meal_lock);
 		if (data->philo[i].meals_eaten >= data->num_meals)
 			full_count++;
-		pthread_mutex_unlock(&data->lock);
+		pthread_mutex_unlock(&data->philo[i].meal_lock);
 		i++;
 	}
 	if (full_count == data->philo_number)

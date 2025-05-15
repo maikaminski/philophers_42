@@ -36,6 +36,7 @@ typedef struct s_philo
 	uint64_t		last_meal;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	*right_fork;
 	struct s_data	*data;
 }	t_philo;
@@ -46,7 +47,7 @@ typedef struct s_data
 	int					num_meals;
 	uint64_t			time_to_sleep;
 	uint64_t			time_to_eat;
-	uint64_t			time_to_think;
+	int64_t				time_to_think;
 	uint64_t			time_to_dead;
 	uint64_t			start;
 	bool				someone_died;

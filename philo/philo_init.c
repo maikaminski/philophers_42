@@ -18,6 +18,8 @@ int	init_data(t_data *data, int argc, char **argv)
 		return (1);
 	data->someone_died = false;
 	data->start = 0;
+	data->time_to_think = data->time_to_dead
+		- (data->time_to_eat - data->time_to_sleep);
 	data->philo = malloc(sizeof(t_philo) * data->philo_number);
 	if (!data->philo)
 		return (error_msg("Failed to alloc memory for philo.\n"));
@@ -37,9 +39,10 @@ void	init_mutex(t_data *data)
 	i = 0;
 	while (i < data->philo_number)
 	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0
+			|| pthread_mutex_init(&data->philo[i].meal_lock, NULL) != 0)
 		{
-			error_msg("Failed to init fork mutex.\n");
+			error_msg("Failed to init mutex.\n");
 			return ;
 		}
 		i++;

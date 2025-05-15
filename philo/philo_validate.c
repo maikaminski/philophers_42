@@ -36,7 +36,7 @@ int	validate_args(int argc, char **argv, t_data *data)
 	while (i < argc)
 	{
 		if (!is_number(argv[i]))
-			return (error_msg("Invalid input: must be a positive number\n"));
+			return (error_msg("Invalid input\n"));
 		i++;
 	}
 	data->philo_number = ft_atol(argv[1]);

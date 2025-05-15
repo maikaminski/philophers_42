@@ -18,7 +18,9 @@ void	safe_print(t_philo *philo, const char *msg)
 	int			someone_died;
 
 	time = get_time() - philo->data->start;
+	pthread_mutex_lock(&philo->data->lock);
 	someone_died = philo->data->someone_died;
+	pthread_mutex_unlock(&philo->data->lock);
 	if (!someone_died)
 	{
 		pthread_mutex_lock(&philo->data->print);
@@ -26,9 +28,9 @@ void	safe_print(t_philo *philo, const char *msg)
 		pthread_mutex_unlock(&philo->data->print);
 		return ;
 	}
-	pthread_mutex_lock(&philo->data->lock);
+	pthread_mutex_lock(&philo->data->print);
 	printf("%lu %d %s\n", time, philo->philo_id, msg);
-	pthread_mutex_unlock(&philo->data->lock);
+	pthread_mutex_unlock(&philo->data->print);
 }
 
 int	error_msg(char *msg)
